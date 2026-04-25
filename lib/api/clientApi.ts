@@ -1,9 +1,10 @@
 import axios from 'axios';
 import type { RegisterRequest, LoginRequest } from '@/types/auth';
+const baseURL = process.env.NEXT_PUBLIC_API_URL + '/api';
 import { User } from '@/types/user';
 
 const API = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: baseURL,
   withCredentials: true,
 });
 
