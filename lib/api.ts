@@ -1,7 +1,14 @@
 import axios from 'axios';
 import type { CreateNote, Note } from '@/types/note';
 import type { Category } from '@/types/category';
+import type { CheckSessionRequest } from '@/types/auth';
+import type { User } from '@/types/user';
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
+
+export const api = axios.create({
+  baseURL: 'https://notehub-api.goit.study',
+  withCredentials: true,
+});
 
 export interface NotesResponse {
   notes: Note[];
@@ -65,6 +72,16 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
 };
 
 export async function getCategories() {
-  const { data } = await axios.get<Category[]>('/categories');
+  const { data } = await axios.get<Category[]>('/api/notes');
   return data;
 }
+
+export const checkSession = async () => {
+  const { data } = await api.get<CheckSessionRequest>('/auth/session');
+  return data.success;
+};
+
+export const getMe = async () => {
+  const { data } = await api.get<User>('/auth/users/me');
+  return data;
+};

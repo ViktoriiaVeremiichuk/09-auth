@@ -6,6 +6,7 @@ import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 
 import QueryProvider from '@/components/TanStackProvider/TanStackProvider';
+import AuthProvider from '@/components/AuthProvider/AuthProvider';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -13,7 +14,6 @@ const roboto = Roboto({
   variable: '--font-roboto',
   display: 'swap',
 });
-
 
 export const metadata: Metadata = {
   title: 'NoteHub',
@@ -45,11 +45,13 @@ export default function RootLayout({
     <html lang="en" className={roboto.variable}>
       <body>
         <QueryProvider>
-          <Header />
-          {children}
-          {modal}
-          <div id="modal-root"></div>
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {children}
+            {modal}
+            <div id="modal-root"></div>
+            <Footer />
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

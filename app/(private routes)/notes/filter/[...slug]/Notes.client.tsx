@@ -9,7 +9,7 @@ import { fetchNotes } from '@/lib/api';
 import { useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import Link from 'next/link';
-import css from "@/app/notes/filter/[...slug]/Notes.client.module.css"
+import css from "@/app/(private routes)/notes/filter/[...slug]/Notes.client.module.css"
 
 interface NotesClientProps {
   currentTag?: string;
