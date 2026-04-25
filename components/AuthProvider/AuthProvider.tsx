@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { checkSession, getMe } from '@/lib/api';
+import { checkSession, getMe } from '@/lib/api/api';
 import { useAuthStore } from '@/lib/store/authStore';
 
 interface AuthProviderProps {

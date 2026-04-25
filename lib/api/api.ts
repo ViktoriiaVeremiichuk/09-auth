@@ -3,10 +3,10 @@ import type { CreateNote, Note } from '@/types/note';
 import type { Category } from '@/types/category';
 import type { CheckSessionRequest } from '@/types/auth';
 import type { User } from '@/types/user';
-axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
+const baseURL = process.env.NEXT_PUBLIC_API_URL + '/api';
 
 export const api = axios.create({
-  baseURL: 'https://notehub-api.goit.study',
+  baseURL: baseURL,
   withCredentials: true,
 });
 
