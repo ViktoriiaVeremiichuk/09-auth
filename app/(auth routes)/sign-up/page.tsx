@@ -3,16 +3,23 @@ import css from '@/app/(auth routes)/sign-up/SingUpPage.module.css';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { register } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 
 const SingUp = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const { setUser, setIsAuthenticated } = useAuthStore();
+
   const handleSubmit = async (formData: FormData) => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     setError(null);
 
     try {
+      const userData = await register({ email, password });
+      setUser(userData);
+      setIsAuthenticated(true);
+
       await register({ email, password });
       router.push('/profile');
     } catch (error) {
@@ -52,7 +59,7 @@ const SingUp = () => {
           </button>
         </div>
 
-        {error && <p className={css.error}>Error</p>}
+        {error && <p className={css.error}>{error}</p>}
       </form>
     </main>
   );

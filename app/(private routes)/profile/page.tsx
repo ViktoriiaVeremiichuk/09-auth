@@ -1,9 +1,8 @@
-
-
-
+import type { Metadata } from 'next';
+import { getMe } from '@/lib/api/serverApi';
 import ProfileContent from './ProfileContent';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'User profile | NoteHub',
   description: 'Сторінка особистого профілю користувача з налаштуваннями.',
   openGraph: {
@@ -11,11 +10,9 @@ export const metadata = {
     description: 'User profile page',
   },
 };
-function ProfilePage() {
-    
-  return <ProfileContent />;
-};
+async function ProfilePage() {
+    const user = await getMe();
+  return <ProfileContent user={user}/>;
+}
 
 export default ProfilePage;
-
-

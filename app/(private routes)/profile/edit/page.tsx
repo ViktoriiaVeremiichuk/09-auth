@@ -2,9 +2,9 @@
 import css from '@/app/(private routes)/profile/edit/EditProfilePage.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
-import { api } from '@/app/api/api';
+import { api } from '@/lib/api/clientApi';
 
 function EditProfile() {
   const router = useRouter();
@@ -14,7 +14,8 @@ function EditProfile() {
   const [username, setUsername] = useState(user?.username || '');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSave = async () => {
+  const handleSave = async (e: FormEvent) => {
+    e.preventDefault();
     try {
       setIsLoading(true);
       const { data } = await api.patch('/users/me', { username });
@@ -44,7 +45,7 @@ function EditProfile() {
           className={css.avatar}
         />
 
-        <form className={css.profileInfo}>
+        <form className={css.profileInfo} onSubmit={handleSave}>
           <div className={css.usernameWrapper}>
             <label htmlFor="username">Username:</label>
             <input
@@ -55,16 +56,15 @@ function EditProfile() {
             />
           </div>
 
-          <p>Email: user_email@example.com</p>
+          <p>Email: {user?.email}</p>
 
           <div className={css.actions}>
-            <button
-              onClick={handleSave}
+            <button              
               disabled={isLoading}
               type="submit"
               className={css.saveButton}
             >
-              Save
+              {isLoading ? 'Saving...' : 'Save'}
             </button>
             <button
               onClick={handleCancel}

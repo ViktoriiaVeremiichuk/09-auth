@@ -2,14 +2,25 @@
 import css from '@/app/(private routes)/profile/ProfilePage.module.css';
 import Image from 'next/image';
 import Link from "next/link";
+import { useEffect } from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
+import type { User } from '@/types/user';
 
+interface ProfileContentProps {
+  user: User;
+}
 
+function Profile({user}:ProfileContentProps) {
+    const {setUser, setIsAuthenticated} = useAuthStore();
 
+    useEffect(() => {
+    if (user) {
+      setUser(user);
+      setIsAuthenticated(true);
+    }
+  }, [user, setUser, setIsAuthenticated]);
 
-function Profile() {
-    
-  const { user } = useAuthStore();
+  
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>

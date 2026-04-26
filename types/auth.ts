@@ -12,3 +12,8 @@ export type LoginRequest = {
 export type CheckSessionRequest = {
   success: boolean;
 };
+
+export type CheckSessionResponse = {
+  success: boolean;
+};
+

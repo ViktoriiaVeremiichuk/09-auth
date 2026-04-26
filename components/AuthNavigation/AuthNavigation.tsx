@@ -36,11 +36,11 @@ function AuthNavigation() {
     <>
       <li className={css.navigationItem}>
         <Link href="/profile" prefetch={false} className={css.navigationLink}>
-          {user?.username}
+          Profile
         </Link>
       </li>
       <li className={css.navigationItem}>
-        {/* <p className={css.userEmail}>User email</p> */}
+        <p className={css.userEmail}>{user?.email || user?.username || 'User'}</p>
         <button className={css.logoutButton} onClick={handleLogout}>
           Logout
         </button>

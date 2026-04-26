@@ -28,7 +28,7 @@ export const fetchNotes = async ({
   search = '',
   tag,
 }: FetchNotesParams = {}): Promise<NotesResponse> => {
-  const response = await axios.get<NotesResponse>('/notes', {
+  const response = await api.get<NotesResponse>('/notes', {
     params: {
       page,
       perPage,
@@ -44,7 +44,7 @@ export const fetchNotes = async ({
 };
 
 export const createNote = async (payload: CreateNote): Promise<Note> => {
-  const { data } = await axios.post<Note>('/notes', payload, {
+  const { data } = await api.post<Note>('/notes', payload, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
       'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export const createNote = async (payload: CreateNote): Promise<Note> => {
 };
 
 export const deleteNote = async (noteId: Note['id']): Promise<Note> => {
-  const response = await axios.delete<Note>(`/notes/${noteId}`, {
+  const response = await api.delete<Note>(`/notes/${noteId}`, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
     },
@@ -63,7 +63,7 @@ export const deleteNote = async (noteId: Note['id']): Promise<Note> => {
 };
 
 export const fetchNoteById = async (noteId: string): Promise<Note> => {
-  const { data } = await axios.get<Note>(`/notes/${noteId}`, {
+  const { data } = await api.get<Note>(`/notes/${noteId}`, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_NOTEHUB_TOKEN}`,
     },
@@ -72,7 +72,7 @@ export const fetchNoteById = async (noteId: string): Promise<Note> => {
 };
 
 export async function getCategories() {
-  const { data } = await axios.get<Category[]>('/api/notes');
+  const { data } = await api.get<Category[]>('/notes');
   return data;
 }
 

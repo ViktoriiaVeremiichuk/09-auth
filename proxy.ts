@@ -4,7 +4,7 @@ import { parse } from "cookie";
 
 import { api } from "@/app/api/api";
 
-const PRIVATE_ROUTES = ["/profile"];
+const PRIVATE_ROUTES = ["/profile", "/notes"];
 const AUTH_ROUTES = ["/sign-in", "/sign-up"];
 
 export async function proxy(request: NextRequest) {
@@ -52,13 +52,9 @@ export async function proxy(request: NextRequest) {
           }
         }
 
-        // if (isAuthRoute) {
-        //   return NextResponse.redirect(new URL("/profile", request.url), {
-        //     headers: {
-        //       Cookie: cookieStore.toString(),
-        //     },
-        //   });
-        // }
+        if (isAuthRoute) {
+          return NextResponse.redirect(new URL("/", request.url)); 
+        }
 
         if (isPrivateRoute) {
           return NextResponse.next({
@@ -84,11 +80,11 @@ export async function proxy(request: NextRequest) {
     }
 
     if (isAuthRoute) {
-      return NextResponse.redirect(new URL("/profile", request.url));
+      return NextResponse.redirect(new URL("/", request.url));
     }
   }
 }
 
 export const config = {
-  matcher: ["/profile/:path*", "/sign-in", "/sign-up"],
+  matcher: ["/profile/:path*", "/notes/:path*", "/sign-in", "/sign-up"],
 };

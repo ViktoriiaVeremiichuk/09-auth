@@ -25,21 +25,23 @@ export async function generateMetadata({
     return {
       title: `${response.title} - NoteHub`,
       description: response.content,
-      openGraph: {  
+      openGraph: {
         title: `${response.title} - NoteHub`,
         description: response.content,
         type: 'article',
         url: `http://localhost:3000/notes/${id}`,
-        images: [{
-          url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
-          width: 1200,
-          height: 630,
-          alt: response.title,
-        }]
-      }
+        images: [
+          {
+            url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+            width: 1200,
+            height: 630,
+            alt: response.title,
+          },
+        ],
+      },
     };
   } catch (error) {
-    console.error("Metadata generation error:", error);
+    console.error('Metadata generation error:', error);
     return {
       title: 'Note - NoteHub',
     };
@@ -56,7 +58,7 @@ export default async function NotePage({ params }: NotePageProps) {
     queryFn: () => fetchNoteById(id),
   });
 
-  const state = queryClient.getQueryState(['notes', id]);
+  const state = queryClient.getQueryState(['note', id]);
 
   if (state?.status === 'error' || !state?.data) {
     notFound();

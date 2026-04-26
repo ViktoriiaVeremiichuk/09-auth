@@ -1,55 +1,46 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
+import type { Note } from '@/types/note';
+import type { User } from '@/types/user';
+import type { FetchNotesParams } from '@/types/note';
+import type { CheckSessionResponse } from '@/types/auth';
+import type { NotesResponse } from '@/lib/api/api';
 
-const baseURL = process.env.NEXT_PUBLIC_API_URL + '/api';
-
-interface FetchNotesParams {
-  page?: number;
-  perPage?: number;
-  search?: string;
-  tag?: string;
-}
-
+export const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_URL + '/api',
+});
 
 const getAuthHeaders = async () => {
   const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  
   return {
-    Authorization: token ? `Bearer ${token}` : '',
-    'Content-Type': 'application/json',
+    Cookie: cookieStore.toString(),
   };
 };
 
-export const API = axios.create({
-  baseURL: baseURL,
-});
-
-
-export const fetchNotes = async (params: FetchNotesParams={}) => {
+export const fetchNotes = async (
+  params: FetchNotesParams = {}
+): Promise<NotesResponse> => {
   const headers = await getAuthHeaders();
-  const { data } = await API.get('/notes', { params, headers });
+  const { data } = await api.get<NotesResponse>('/notes', { params, headers });
   return data;
 };
 
-export const getMe = async () => {
+export const fetchNoteById = async (noteId: string): Promise<Note> => {
   const headers = await getAuthHeaders();
-  const { data } = await API.get('/auth/users/me', { headers });
+  const { data } = await api.get<Note>(`/notes/${noteId}`, { headers });
   return data;
 };
 
-export const fetchNoteById = async (noteId: string) => {
+export const getMe = async (): Promise<User> => {
   const headers = await getAuthHeaders();
-  const { data } = await API.get(`/notes/${noteId}`, { headers });
+  const { data } = await api.get<User>('/users/me', { headers });
   return data;
 };
 
-export const checkSession = async () => {
+export const checkSession = async (): Promise<CheckSessionResponse> => {
   const headers = await getAuthHeaders();
-  try {
-    const { data } = await API.get('/auth/session', { headers });
-    return data.success;
-  } catch {
-    return false;
-  }
+  const { data } = await api.get<CheckSessionResponse>('/auth/session', {
+    headers,
+  });
+  return data;
 };
