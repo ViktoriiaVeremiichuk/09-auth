@@ -8,7 +8,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 const SingUp = () => {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const { setUser, setIsAuthenticated } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   const handleSubmit = async (formData: FormData) => {
     const email = formData.get('email') as string;
@@ -18,9 +18,6 @@ const SingUp = () => {
     try {
       const userData = await register({ email, password });
       setUser(userData);
-      setIsAuthenticated(true);
-
-      await register({ email, password });
       router.push('/profile');
     } catch (error) {
       console.error(error);

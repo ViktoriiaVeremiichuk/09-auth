@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { AxiosResponse } from 'axios';
 import { cookies } from 'next/headers';
 import type { Note } from '@/types/note';
 import type { User } from '@/types/user';
@@ -37,10 +38,10 @@ export const getMe = async (): Promise<User> => {
   return data;
 };
 
-export const checkSession = async (): Promise<CheckSessionResponse> => {
+export const checkSession = async (): Promise<AxiosResponse<CheckSessionResponse>> => {
   const headers = await getAuthHeaders();
-  const { data } = await api.get<CheckSessionResponse>('/auth/session', {
+  const response = await api.get<CheckSessionResponse>('/auth/session', {
     headers,
   });
-  return data;
+  return response;
 };

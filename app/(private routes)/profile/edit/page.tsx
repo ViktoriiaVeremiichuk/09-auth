@@ -2,7 +2,8 @@
 import css from '@/app/(private routes)/profile/edit/EditProfilePage.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import React from 'react';
 import { useAuthStore } from '@/lib/store/authStore';
 import { api } from '@/lib/api/clientApi';
 
@@ -14,7 +15,7 @@ function EditProfile() {
   const [username, setUsername] = useState(user?.username || '');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSave = async (e: FormEvent) => {
+  const handleSave = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       setIsLoading(true);
@@ -29,7 +30,7 @@ function EditProfile() {
   };
 
   const handleCancel = () => {
-    router.push('/profile');
+    router.back();
   };
 
   return (
@@ -53,6 +54,7 @@ function EditProfile() {
               type="text"
               className={css.input}
               onChange={e => setUsername(e.target.value)}
+              value={username}
             />
           </div>
 

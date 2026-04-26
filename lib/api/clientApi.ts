@@ -1,12 +1,10 @@
-import axios from 'axios';
+import { api as baseApi } from '@/lib/api/api';
 import type { RegisterRequest, LoginRequest } from '@/types/auth';
 import { User } from '@/types/user';
 import type { Note, CreateNote } from '@/types/note';
 import type { NotesResponse } from '@/lib/api/api';
 
-export const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL + '/api',
-});
+export const api = baseApi;
 
 export const register = async (data: RegisterRequest) => {
   const res = await api.post<User>('/auth/register', data);
@@ -28,12 +26,12 @@ export const checkSession = async () => {
 };
 
 export const getMe = async () => {
-  const { data } = await api.get<User>('/auth/users/me');
+  const { data } = await api.get<User>('/users/me');
   return data;
 };
 
 export const updateMe = async (userData: Partial<User>) => {
-  const { data } = await api.patch<User>('/auth/users/me', userData);
+  const { data } = await api.patch<User>('/users/me', userData);
   return data;
 };
 
